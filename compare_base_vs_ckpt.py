@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, set_seed
 
 CKPT = os.environ.get(
     "CKPT",
-    "/data/nfs-hpc/llm-express/checkpoints/gpt2-tinystories-express/checkpoint-2000"
+    "/data/nfs/llm-express/checkpoints/gpt2-tinystories-express/checkpoint-1500"
 )
 BASE = os.environ.get("BASE_MODEL", "openai-community/gpt2")
 

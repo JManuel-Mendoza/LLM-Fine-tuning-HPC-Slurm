@@ -5,13 +5,15 @@
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=6G
 #SBATCH -t 00:15:00
-#SBATCH -o /data/nfs-hpc/llm-express/logs/%x-%j.out
-#SBATCH -e /data/nfs-hpc/llm-express/logs/%x-%j.err
+#SBATCH -o /data/nfs/llm-express/logs/%x-%j.out
+#SBATCH -e /data/nfs/llm-express/logs/%x-%j.err
 
 set -euo pipefail
+cp ./compare_base_vs_ckpt.py /data/nfs/llm-express/code/compare_base_vs_ckpt.py
+BASE_DIR="/data/nfs/llm-express"
 
-BASE_DIR="/data/nfs-hpc/llm-express"
-CKPT="$BASE_DIR/checkpoints/gpt2-tinystories-express/checkpoint-2000"
+CKPT="$BASE_DIR/checkpoints/gpt2-tinystories-express/checkpoint-15000"  # OJO, este checkpoint debe existir (si no, el script da error)
+
 BASE_MODEL="openai-community/gpt2"
 
 echo "JobID: ${SLURM_JOB_ID}"

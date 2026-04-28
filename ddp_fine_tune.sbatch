@@ -1,18 +1,18 @@
 #!/bin/bash
 #SBATCH -J llm-ddp
 #SBATCH -p gpu
-#SBATCH --nodes=3
+#SBATCH --nodes=2
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=24G
 #SBATCH -t 03:00:00
-#SBATCH -o /data/nfs-hpc/llm-express/logs/%x-%j.out
-#SBATCH -e /data/nfs-hpc/llm-express/logs/%x-%j.err
+#SBATCH -o /data/nfs/llm-express/logs/%x-%j.out
+#SBATCH -e /data/nfs/llm-express/logs/%x-%j.err
 
 set -euo pipefail
 
-BASE="/data/nfs-hpc/llm-express"
+BASE="/data/nfs/llm-express"
 mkdir -p "$BASE"/{logs,checkpoints,hf_cache,code}
 
 echo "=== SLURM ==="
@@ -52,6 +52,8 @@ GPU_WATCH_PID=$!
 trap 'kill $GPU_WATCH_PID 2>/dev/null || true' EXIT
 
 OUTDIR="$BASE/checkpoints/gpt2-tinystories-ddp"
+
+cp ./train_distributed.py "$BASE/code/train_distributed.py"
 
 timeout 170m srun --kill-on-bad-exit=1 \
   micromamba run -n llm \
